@@ -4,7 +4,11 @@ interface GameStatsProps {
   effectiveness: number;
 }
 
-export const GameStats: React.FC<GameStatsProps> = ({ wins, losses, effectiveness }) => {
+export const GameStats: React.FC<GameStatsProps> = ({
+  wins,
+  losses,
+  effectiveness
+}) => {
   return (
     <div className="game-stats">
       <h2>Estadísticas del Juego</h2>
