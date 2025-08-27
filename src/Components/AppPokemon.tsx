@@ -1,5 +1,6 @@
 import ReactConfetti from 'react-confetti';
 import { GameState, useGameManager } from '../hooks/use-game-manager';
+import { GameStats } from './GameStats'; // Asegúrate de que la ruta sea correcta
 import PokemonDisplay from './PokemonDisplay';
 import PokemonForm from './PokemonForm';
 import PokemonResult from './PokemonResult';
@@ -11,7 +12,10 @@ const AppPokemon = () => {
     error,
     isLoading,
     gameState,
-    handlePokemonNameSubmit
+    handlePokemonNameSubmit,
+    wins,
+    losses,
+    effectiveness
   } = useGameManager();
 
   if (error) {
@@ -30,6 +34,11 @@ const AppPokemon = () => {
       )}
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 col-lg-6">
+          <GameStats
+            wins={wins}
+            losses={losses}
+            effectiveness={effectiveness}
+          />
           <PokemonDisplay
             pokemon={pokemon}
             isLoading={isLoading}

@@ -14,8 +14,11 @@ export const useGameManager = () => {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
   const [gameState, setGameState] = useState<GameState>(GameState.Playing);
+
+  // Estado para las estadísticas
+  const [wins, setWins] = useState(0);
+  const [losses, setLosses] = useState(0);
 
   const handlePokemonNameSubmit = useCallback(
     (userInput: string) => {
@@ -25,7 +28,13 @@ export const useGameManager = () => {
         userInput
       );
 
-      setGameState(isValid ? GameState.Correct : GameState.Wrong);
+      if (isValid) {
+        setGameState(GameState.Correct);
+        setWins((prevWins) => prevWins + 1);
+      } else {
+        setGameState(GameState.Wrong);
+        setLosses((prevLosses) => prevLosses + 1);
+      }
     },
     [pokemon]
   );
@@ -48,12 +57,19 @@ export const useGameManager = () => {
     loadNewPokemon();
   }, [loadNewPokemon]);
 
+  // Calcular el porcentaje de efectividad
+  const totalGames = wins + losses;
+  const effectiveness = totalGames > 0 ? (wins / totalGames) * 100 : 0;
+
   return {
     pokemon,
     isLoading,
     error,
     loadNewPokemon,
     handlePokemonNameSubmit,
-    gameState
+    gameState,
+    wins,
+    losses,
+    effectiveness
   };
 };
